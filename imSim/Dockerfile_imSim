@@ -1,0 +1,14 @@
+FROM hepcce/desc_imsim_base:py2_v0
+
+ARG EUPS_TAG=w_2017_26
+
+RUN zypper install -y time
+RUN /bin/bash -c 'source /lsst/stack/loadLSST.bash; \
+    cd /lsst; \
+    git clone https://github.com/LSSTDESC/imSim.git; \
+    cd imSim; \
+    setup -r . -t  $EUPS_TAG; \
+    eups declare -r . imsim -t current; \
+    setup imsim; \
+    setup sconsUtils; \
+    scons;'
