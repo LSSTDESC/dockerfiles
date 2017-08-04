@@ -1,4 +1,4 @@
-FROM hepcce/desc_imsim:base_py3_v1
+FROM hepcce/desc_imsim:base_py3_v2
 
 RUN zypper install -y time
 RUN /bin/bash -c 'source /lsst/stack/loadLSST.bash; \

@@ -66,7 +66,7 @@ RUN echo "Executing: eups distrib install $EUPS_TAG_OPT $EUPS_PRODUCT $EUPS_PROD
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
                   eups list; \
                   eups distrib install ${EUPS_TAG:+"-t"}  $EUPS_TAG $EUPS_PRODUCT --nolocks;\
-                  eups disturb install ${EUPS_TAG2:+"-t"} $EUPS_TAG2 $EUPS_PRODUCT2 --nolocks;\
+                  eups distrib install ${EUPS_TAG2:+"-t"} $EUPS_TAG2 $EUPS_PRODUCT2 --nolocks;\
                   echo 'hooks.config.site.lockDirectoryBase = None' >> site/startup.py;'
 
 # Make sure $LSST_STACK_DIR and $LSST_WORKSPACE have proper permissions
