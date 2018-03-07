@@ -1,0 +1,29 @@
+FROM lsstsqre/centos:7-stack-lsst_distrib-w_2018_09
+MAINTAINER Heather Kelly <heather@slac.stanford.edu>
+
+ARG LSST_STACK_DIR=/opt/lsst/software/stack
+ARG EUPS_PRODUCT2=lsst_sims
+ARG EUPS_TAG2=sims
+ARG LSST_USER=lsst
+ARG LSST_GROUP=lsst
+
+WORKDIR $LSST_STACK_DIR
+
+RUN echo "Environment: \n" && env | sort
+
+RUN echo "Executing: eups distrib install $EUPS_PRODUCT $EUPS_TAG" && \
+    source scl_source enable devtoolset-6 && \
+    gcc --version && \
+    echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  export EUPS_PKGROOT=https://eups.lsst.codes/stack/src; \
+                  eups distrib install ${EUPS_TAG2:+"-t"} $EUPS_TAG2 $EUPS_PRODUCT2 --nolocks;' 
+
+RUN rm -Rf python/doc
+RUN rm -Rf python/phrasebooks
+RUN find stack -name "*.pyc" -delete
+RUN (find stack -name "*.so" | xargs strip -s -p) || true
+RUN (find stack -name "src" | xargs rm -Rf) || true
+RUN (find stack -name "doc" | xargs rm -Rf) || true
+RUN (find stack -name "tests" | xargs rm -Rf ) || true
+
