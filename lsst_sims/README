@@ -10,5 +10,5 @@ pass the build stage.
 
 To build an image from either one or the other:
 
-docker build --no-cache --squash <dockerfilename>
+docker build --no-cache --squash -f <dockerfilename> <path>
 
