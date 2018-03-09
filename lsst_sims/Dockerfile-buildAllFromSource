@@ -45,27 +45,21 @@ RUN rm -rf /var/cache/yum
 
 RUN groupadd -g 1000 -r lsst && useradd -u 1000 --no-log-init -m -r -g lsst lsst
 
-ARG LSST_STACK_DIR=/opt/lsst/stack
+ARG LSST_STACK_DIR=/opt/lsst/software/stack
 ARG EUPS_HOME=$LSST_STACK_DIR/.eups
 ARG EUPS_PRODUCT=lsst_apps
 ARG EUPS_PRODUCT2=lsst_sims
 ARG EUPS_TAG2=sims
-#ARG LSST_USER=desc
-#ARG LSST_GROUP=desc
-#ARG LSST_WORKSPACE=/desc
 
 RUN mkdir -p $LSST_STACK_DIR
 RUN mkdir -p $EUPS_HOME
-#RUN mkdir -p $LSST_WORKSPACE
 
 WORKDIR $LSST_STACK_DIR
 
 RUN chown lsst $LSST_STACK_DIR
 RUN chown lsst $EUPS_HOME
-#RUN chown lsst $LSST_WORKSPACE
 RUN chgrp lsst $LSST_STACK_DIR
 RUN chgrp lsst $EUPS_HOME
-#RUN chgrp lsst $LSST_WORKSPACE
 
 USER lsst
 
