@@ -1,7 +1,7 @@
 This directory contains two example Dockerfiles for building lsst_distrib plus 
 lsst_sims.
 
-Dockerfile_useWeeklyImage - uses lsstsqre's weekly docker image as a base.  Unfortunately, this method often fails due to missing files (even test files) which are stripped out of the LSSTSQRE docker images.  This did work for lsst_sims
+Dockerfile-useWeeklyImage - uses lsstsqre's weekly docker image as a base.  Unfortunately, this method often fails due to missing files (even test files) which are stripped out of the LSSTSQRE docker images.  This did work for lsst_sims
 2.5.0 + lsst_distrib w_2018_03
 
 Dockerfile_buildAllFromSource  - builds the whole container from scratch using
