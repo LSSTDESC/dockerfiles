@@ -27,6 +27,8 @@ RUN yum update -y && \
     libXrender \
     libXt-devel \
     make \
+    mesa-libGLU \
+    mesa-libGLU-devel \
     ncurses-devel \
     openssl-devel \
     patch \
@@ -47,7 +49,7 @@ RUN groupadd -g 1000 -r lsst && useradd -u 1000 --no-log-init -m -r -g lsst lsst
 
 ARG LSST_STACK_DIR=/opt/lsst/software/stack
 ARG EUPS_HOME=$LSST_STACK_DIR/.eups
-ARG EUPS_PRODUCT=lsst_apps
+ARG EUPS_PRODUCT=lsst_distrib
 ARG EUPS_PRODUCT2=lsst_sims
 ARG EUPS_TAG2=sims
 
