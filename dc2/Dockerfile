@@ -16,15 +16,16 @@ RUN echo "Executing: eups distrib install $EUPS_PRODUCT $EUPS_TAG" && \
     source scl_source enable devtoolset-6 && \
     gcc --version && \
     echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
+    echo -e "hooks.config.Eups.globalTags += [\"dc2\"]\n$(cat stack/current/site/startup.py)" > stack/current/site/startup.py && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
                   cd $LSST_STACK_DIR; \
                   setup lsst_distrib; \
                   git clone https://github.com/LSSTDESC/obs_lsstSim.git; \
                   cd obs_lsstSim; \
-                  setup -r . -t $EUPS_TAG; \
+                  eups declare -r . obs_lsstSim -t dc2;\
+                  setup -j -r .;\
                   scons; \
                   scons install; \
-                  scons declare; \
-                  setup obs_lsstSim $BRANCH -t $EUPS_TAG;'
+                  scons declare;' 
 
 
