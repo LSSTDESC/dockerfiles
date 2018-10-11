@@ -1,4 +1,4 @@
-FROM lsstsqre/centos:7-stack-lsst_distrib-w_2018_30
+FROM lsstsqre/centos:7-stack-lsst_distrib-w_2018_38
 MAINTAINER Heather Kelly <heather@slac.stanford.edu>
 
 ARG LSST_STACK_DIR=/opt/lsst/software/stack
@@ -11,6 +11,6 @@ RUN echo "Environment: \n" && env | sort
 
 RUN echo "Installing ipykernel" && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
-                  conda install -y ipykernel' 
+                  conda install -y ipykernel jupyter_console' 
 
 
