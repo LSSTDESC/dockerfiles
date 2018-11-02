@@ -1,0 +1,69 @@
+FROM lsstdesc/stack-sims:w_2018_39-sims_2_11_1
+MAINTAINER Heather Kelly <heather@slac.stanford.edu>
+
+ARG LSST_STACK_DIR=/opt/lsst/software/stack
+ARG LSST_USER=lsst
+ARG LSST_GROUP=lsst
+
+WORKDIR $LSST_STACK_DIR
+
+RUN echo "Environment: \n" && env | sort
+
+USER root
+RUN yum install -y libffi-devel
+USER lsst
+
+RUN echo "Installing ipykernel" && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  conda install -y ipykernel jupyter_console; \
+                  pip install camb; \
+                  pip install fast3tree; \
+                  pip install fitsio; \
+                  pip install healpy; \
+                  pip install https://bitbucket.org/yymao/helpers/get/master.zip; \
+                  conda install -y markupsafe nose; \
+                  pip install parsl==0.6.1; \
+                  export PYMSSQL_BUILD_WITH_BUNDLED_FREEETDS=1; \
+                  pip install pymssql; \
+                  pip install tables; \
+                  pip install TreeCorr==3.3.7; \
+                  pip install https://github.com/LSSTDESC/descqa/archive/v2.0.0-0.6.0.tar.gz; \
+                  pip install https://github.com/LSSTDESC/gcr-catalogs/archive/v0.9.1.tar.gz; \
+                  pip install corner; \
+                  pip install https://github.com/yymao/FoFCatalogMatching/archive/v0.1.0.tar.gz; \
+                  pip install git+https://github.com/msimet/Stile; \
+                  pip install scikit-image; \
+                  conda install -y cmake swig; \
+                  setup fftw; \
+                  setup gsl'
+#                  pip install pyccl==0.3.4'
+
+
+RUN echo "Installing obs_lsstCam" && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                 setup lsst_distrib; \
+                 git clone https://github.com/lsst/obs_lsstCam.git; \
+                 cd obs_lsstCam; \
+                 git checkout dc2/run1.2-v2; \
+                 setup -r . -j; \
+                 scons; \
+                 cd ..'
+
+RUN echo "Installing additional python packages" && \
+    echo -e "numpy==1.14.5\nrequests==2.19.1\ncertifi==2018.4.16" > $LSST_STACK_DIR/constraint.txt && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  pip install bokeh; \
+                  pip install dask; \
+                  pip install distributed; \
+                  pip install datashader; \
+                  pip install fastparquet; \
+                  pip install -c $LSST_STACK_DIR/constraint.txt google-cloud-bigquery; \
+                  pip install -c $LSST_STACK_DIR/constraint.txt holoviews; \
+                  pip install -c $LSST_STACK_DIR/constraint.txt pyarrow; \
+                  pip install ipywidgets'
+
+RUN echo "Installing additional python packages" && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  pip install GCR==0.8.5' 
+
+RUN echo "hooks.config.site.lockDirectoryBase = None" >> $LSST_STACK_DIR/stack/miniconda3-4.5.4-fcd27eb/site/startup.py
