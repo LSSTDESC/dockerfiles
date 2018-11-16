@@ -84,8 +84,8 @@ RUN rm -Rf python/doc
 RUN rm -Rf python/phrasebooks
 RUN find stack -name "*.pyc" -delete
 RUN (find stack -name "*.so" | xargs strip -s -p) || true
-RUN (find stack -name "src" | xargs rm -Rf) || true
+RUN (find stack -name "src" ! -path "*/Eigen/*" | xargs rm -Rf) || true
 RUN (find stack -name "doc" | xargs rm -Rf) || true
-RUN (find stack -name "tests" | xargs rm -Rf ) || true
+#RUN (find stack -name "tests" | xargs rm -Rf ) || true
 
 
