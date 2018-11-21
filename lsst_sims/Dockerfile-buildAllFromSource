@@ -51,7 +51,7 @@ ARG LSST_STACK_DIR=/opt/lsst/software/stack
 ARG EUPS_HOME=$LSST_STACK_DIR/.eups
 ARG EUPS_PRODUCT=lsst_distrib
 ARG EUPS_PRODUCT2=lsst_sims
-ARG EUPS_TAG2=sims_2_10_0
+ARG EUPS_TAG2=sims_2_11_1
 
 RUN mkdir -p $LSST_STACK_DIR
 RUN mkdir -p $EUPS_HOME
@@ -73,7 +73,7 @@ RUN echo "Environment: \n" && env | sort
 
 RUN echo "Executing: eups distrib install $EUPS_PRODUCT $EUPS_TAG" && \
     source scl_source enable devtoolset-6 && \
-    curl -OL https://raw.githubusercontent.com/lsst/lsst/w.2018.35/scripts/newinstall.sh && \
+    curl -OL https://raw.githubusercontent.com/lsst/lsst/w.2018.39/scripts/newinstall.sh && \
     bash newinstall.sh -b -3 && \
     echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
