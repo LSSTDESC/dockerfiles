@@ -1,0 +1,82 @@
+FROM centos:7
+MAINTAINER Heather Kelly <heather@slac.stanford.edu>
+
+RUN yum update -y && \
+    yum install -y bash \
+    bison \
+    blas \
+    bzip2-devel \
+    bzip2 \
+    centos-release-scl \
+    cmake \
+    curl \
+    flex \
+    fontconfig \
+    freetype-devel \
+    gcc-c++ \
+    gcc-gfortran \
+    gettext \
+    git \
+    glibc \
+    glibc-devel \
+    glib2.0-devel \
+    java-1.8.0-openjdk \
+    libuuid-devel \
+    libselinux \
+    libXext \
+    libXrender \
+    libXt-devel \
+    make \
+    mesa-libGLU \
+    mesa-libGLU-devel \
+    ncurses-devel \
+    openssl-devel \
+    patch \
+    perl \
+    perl-ExtUtils-MakeMaker \
+    readline-devel \
+    tar \
+    which \
+    zlib \
+    zlib-devel 
+
+RUN yum install -y devtoolset-6 && \
+    yum clean -y all
+
+RUN rm -rf /var/cache/yum
+
+RUN groupadd -g 1000 -r lsst && useradd -u 1000 --no-log-init -m -r -g lsst lsst
+
+ARG LSST_STACK_DIR=/opt/lsst/software/stack
+ARG EUPS_HOME=$LSST_STACK_DIR/.eups
+ARG EUPS_PRODUCT=lsst_distrib
+ARG EUPS_TAG=w_2018_48
+
+RUN mkdir -p $LSST_STACK_DIR
+RUN mkdir -p $EUPS_HOME
+
+WORKDIR $LSST_STACK_DIR
+
+RUN chown lsst $LSST_STACK_DIR
+RUN chown lsst $EUPS_HOME
+RUN chgrp lsst $LSST_STACK_DIR
+RUN chgrp lsst $EUPS_HOME
+
+USER lsst
+
+RUN source scl_source enable devtoolset-6 
+
+#ENTRYPOINT ["scl", "enable" "devtoolset-6", "--", "bash", "-c"]
+
+RUN echo "Environment: \n" && env | sort
+
+RUN echo "Executing: eups distrib install $EUPS_PRODUCT $EUPS_TAG" && \
+    source scl_source enable devtoolset-6 && \
+    curl -OL https://raw.githubusercontent.com/lsst/lsst/w.2018.48/scripts/newinstall.sh && \
+    bash newinstall.sh -b -3 && \
+    echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  eups distrib install ${EUPS_TAG:+"-t"} $EUPS_TAG $EUPS_PRODUCT --nolocks;' 
+
+
+

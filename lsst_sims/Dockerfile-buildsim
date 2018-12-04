@@ -1,0 +1,33 @@
+FROM lsstdesc/stack:w_2018_48 
+MAINTAINER Heather Kelly <heather@slac.stanford.edu>
+
+ARG LSST_STACK_DIR=/opt/lsst/software/stack
+ARG EUPS_HOME=$LSST_STACK_DIR/.eups
+ARG EUPS_PRODUCT2=lsst_sims
+ARG EUPS_TAG2=sims_2_13_0
+
+
+WORKDIR $LSST_STACK_DIR
+
+
+USER lsst
+
+RUN source scl_source enable devtoolset-6 
+
+#ENTRYPOINT ["scl", "enable" "devtoolset-6", "--", "bash", "-c"]
+
+RUN echo "Environment: \n" && env | sort
+
+RUN echo "Executing: eups sims install $EUPS_PRODUCT2 $EUPS_TAG2" && \
+    source scl_source enable devtoolset-6 && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  eups distrib install ${EUPS_TAG2:+"-t"} $EUPS_TAG2 $EUPS_PRODUCT2 --nolocks;'
+
+RUN rm -Rf python/doc
+RUN rm -Rf python/phrasebooks
+RUN find stack -name "*.pyc" -delete
+RUN (find stack -name "*.so" | xargs strip -s -p) || true
+RUN (find stack -name "src" ! -path "*/Eigen/*" | xargs rm -Rf) || true
+RUN (find stack -name "doc" | xargs rm -Rf) || true
+
+
