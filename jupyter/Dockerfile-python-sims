@@ -72,7 +72,7 @@ RUN echo "Installing CatalogMatcher" && \
 
 RUN echo "Installing additional python packages" && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
-                  pip install -c $LSST_STACK_DIR/require.txt GCR==0.8.6' 
+                  pip install -c $LSST_STACK_DIR/require.txt GCR==0.8.7' 
 
 RUN echo "Installing additional python packages" && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
