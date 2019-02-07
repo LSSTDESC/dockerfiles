@@ -44,12 +44,12 @@ RUN echo "Finish Installing fast3tree" && \
                  echo -e "from fast3tree.make_lib import make_lib\nmake_lib(3, True)\nmake_lib(3, False)\nmake_lib(2, True)\nmake_lib(2, False)" >> $LSST_STACK_DIR/stack/install_fast3tree.py; \
                  python $LSST_STACK_DIR/stack/install_fast3tree.py'
 
-RUN echo "Installing obs_lsstCam" && \
+RUN echo "Installing obs_lsst" && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
                  setup lsst_distrib; \
-                 git clone https://github.com/lsst/obs_lsstCam.git; \
-                 cd obs_lsstCam; \
-                 git checkout w.2018.39-run1.2; \
+                 git clone https://github.com/lsst/obs_lsst.git; \
+                 cd obs_lsst; \
+                 git checkout w.2018.39-run1.2-v3; \
                  setup -r . -j; \
                  scons; \
                  cd ..'
@@ -81,6 +81,6 @@ RUN echo "Installing additional python packages" && \
 
 RUN echo "Installing additional python packages" && \
     /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
-                  pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/desc-dc2-dm-data/archive/v0.1.0.tar.gz' 
+                  pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/desc-dc2-dm-data/archive/v0.2.0.tar.gz' 
 
 RUN echo "hooks.config.site.lockDirectoryBase = None" >> $LSST_STACK_DIR/stack/miniconda3-4.5.4-fcd27eb/site/startup.py
