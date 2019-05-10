@@ -29,7 +29,7 @@ RUN echo "Installing ipykernel" && \
                   pip install tables; \
                   pip install -c $LSST_STACK_DIR/require.txt TreeCorr==3.3.7; \
                   pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/descqa/archive/v2.0.0-0.6.0.tar.gz; \
-                  pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/gcr-catalogs/archive/v0.10.0.tar.gz; \
+                  pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/gcr-catalogs/archive/v0.10.1.tar.gz; \
                   pip install corner; \
                   pip install https://github.com/yymao/FoFCatalogMatching/archive/v0.1.0.tar.gz; \
 #                  pip install -c $LSST_STACK_DIR/require.txt git+https://github.com/msimet/Stile; \
