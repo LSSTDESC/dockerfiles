@@ -1,10 +1,10 @@
-FROM lsstsqre/centos:7-stack-lsst_distrib-w_2019_19
+FROM lsstsqre/centos:7-stack-lsst_distrib-w_2019_23
 MAINTAINER Heather Kelly <heather@slac.stanford.edu>
 
 ARG LSST_STACK_DIR=/opt/lsst/software/stack
 ARG EUPS_PRODUCT1=galsim
 ARG EUPS_PRODUCT2=lsst_sims
-ARG EUPS_TAG2=sims_w_2019_19
+ARG EUPS_TAG2=sims_w_2019_23
 ARG LSST_USER=lsst
 ARG LSST_GROUP=lsst
 
@@ -24,18 +24,18 @@ RUN echo "Executing: eups distrib install $EUPS_PRODUCT $EUPS_TAG" && \
                   unset galsim; \
                   eups distrib install ${EUPS_TAG2:+"-t"} $EUPS_TAG2 $EUPS_PRODUCT2 --nolocks;' 
 
-RUN echo "Executing: eups distrib install obs_lsst" && \
-    source scl_source enable devtoolset-6 && \
-    gcc --version && \
-    echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
-    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
-                  export EUPS_PKGROOT=https://eups.lsst.codes/stack/src; \
-                  setup lsst_distrib; \
-                  git clone https://github.com/lsst/obs_lsst; \
-                  cd obs_lsst; \
-                  git checkout dc2/run2.1; \
-                  setup -r . -j; \
-                  scons;' 
+#RUN echo "Executing: eups distrib install obs_lsst" && \
+#    source scl_source enable devtoolset-6 && \
+#    gcc --version && \
+#    echo -e "source scl_source enable devtoolset-6\n$(cat loadLSST.bash)" > loadLSST.bash && \
+#    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+#                  export EUPS_PKGROOT=https://eups.lsst.codes/stack/src; \
+#                  setup lsst_distrib; \
+#                  git clone https://github.com/lsst/obs_lsst; \
+#                  cd obs_lsst; \
+#                  git checkout dc2/run2.1; \
+#                  setup -r . -j; \
+#                  scons;' 
 
 RUN rm -Rf python/doc
 RUN rm -Rf python/phrasebooks
