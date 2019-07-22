@@ -30,7 +30,7 @@ RUN echo "Installing DESC requested packages" && \
                   pip install -c $LSST_STACK_DIR/require.txt TreeCorr==4.0.1; \
                   pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/descqa/archive/v2.0.0-0.7.0.tar.gz; \
                   pip install -c $LSST_STACK_DIR/require.txt GCR==0.8.7; \
-                  pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/gcr-catalogs/archive/v0.11.0.tar.gz; \
+                  pip install https://github.com/LSSTDESC/gcr-catalogs/archive/v0.12.0.tar.gz; \
                   pip install -c $LSST_STACK_DIR/require.txt https://github.com/LSSTDESC/desc-dc2-dm-data/archive/v0.3.0.tar.gz; \
                   pip install -c $LSST_STACK_DIR/require.txt corner; \
                   pip install -c $LSST_STACK_DIR/require.txt https://github.com/yymao/FoFCatalogMatching/archive/v0.1.0.tar.gz; \
@@ -80,6 +80,11 @@ RUN echo "Installing CatalogMatcher" && \
                  cd CatalogMatcher; \
                  python setup.py install'
 
+RUN echo "Installing additional python packages" && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+                  pip freeze > $LSST_STACK_DIR/require.txt; \
+                  pip install -c $LSST_STACK_DIR/require.txt GCR==0.8.8; \
+                  pip install https://github.com/LSSTDESC/gcr-catalogs/archive/v0.14.0.tar.gz' 
 
 #RUN echo "Installing additional python packages" && \
 #    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
