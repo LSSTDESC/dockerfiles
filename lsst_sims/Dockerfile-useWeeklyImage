@@ -36,6 +36,13 @@ RUN echo "Executing: declare throughputs" && \
                   eups declare -t current $EUPS_THROUGH 1.4; \
                   eups declare -t current $EUPS_SKY 2017.05.05;' 
 
+RUN echo "Executing: declare throughputs" && \
+    source scl_source enable devtoolset-6 && \
+    /bin/bash -c 'source $LSST_STACK_DIR/loadLSST.bash; \
+    eups tags --delete=current;' 
+
+#    eups list -t current --showTags=current --name --version | while read n v; do echo eups undeclare --current $n $v; done; \
+#    eups list -t current --showTags=current --name --version | while read n v; do eups undeclare --current $n $v; done;' 
 
 #RUN echo "Executing: eups distrib install obs_lsst" && \
 #    source scl_source enable devtoolset-6 && \
